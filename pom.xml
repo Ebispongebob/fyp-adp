@@ -17,7 +17,7 @@
     <modules>
         <module>adp-rule-engine</module>
         <module>adp-common</module>
-        <module>adp-web</module>
+        <module>fypnighthawk</module>
         <module>adp-basedata</module>
     </modules>
 

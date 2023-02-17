@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 333
+    url: jdbc:mysql://43.143.23.30:3306/adp

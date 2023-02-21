@@ -4,3 +4,8 @@ spring:
     username: root
     password: 333
     url: jdbc:mysql://43.143.23.30:3306/adp
+  redis:
+    database: 0
+    host: 43.143.23.30
+    port: 6379
+    password: 333

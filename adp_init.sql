@@ -38,3 +38,24 @@ values (10002, 'r-adp', 'adp', '13202302172', 'adp@adp.com', 'e219be8994730c07d8
 insert into `local_auth` (`id`, `user_code`, `user_name`, `user_phone`, `user_email`, `password`)
 values (10003, 'w-manager', 'manager', '13202302173', 'manager@adp.com', '1d0258c2440a8d19e716292b231e3190');
 
+create table if not exists `datasource_config`
+(
+    `id`                 bigint,
+    `datasource_name`    varchar(255),
+    `username`           varchar(255),
+    `password`           varchar(255),
+    `host`               varchar(255),
+    `port`               varchar(255),
+    `url`                varchar(255),
+    `desc`               varchar(255),
+    `driver`             varchar(255),
+    `enable`             int,
+    `data_provider_type` varchar(255),
+    `extra`              varchar(255),
+    primary key (`id`),
+    UNIQUE INDEX index_datasourceName_uniq (datasource_name ASC)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+insert into `datasource_config` (`id`, `datasource_name`, `username`, `password`, `url`, `host`, `port`, `desc`, `driver`, `enable`, `data_provider_type`, `extra`)
+values (0006379, 'redis', null, '333', null, '43.143.23.30', '6379', 'redis', null, 1, '', '');

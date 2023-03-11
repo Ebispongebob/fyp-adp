@@ -19,6 +19,9 @@
         <module>adp-common</module>
         <module>fypnighthawk</module>
         <module>adp-basedata</module>
+        <module>adp-job</module>
+        <module>adp-job/adp-instantx</module>
+        <module>adp-job/adp-cargo</module>
     </modules>
 
     <properties>

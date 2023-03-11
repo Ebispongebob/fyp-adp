@@ -6,8 +6,16 @@ spring:
     url: jdbc:mysql://43.143.23.30:3306/adp?useUnicode=true&characterEncoding=utf8
     hikari:
       connection-timeout: 3600
-  redis:
-    database: 0
-    host: 43.143.23.30
-    port: 6379
-    password: 333
+#  redis:
+#    database: 0
+#    host: 43.143.23.30
+#    port: 6379
+#    password: 333
+#    url: redis://333@43.143.23.30:6379
+datasource:
+  doris:
+    sql-script-encoding: UTF-8
+    jdbc-url: jdbc:mysql://10.218.23.72:9030/ods_test
+    username: idataservice
+    password: idataservice
+    driver-class-name: com.mysql.jdbc.Driver

@@ -17,17 +17,17 @@ import javax.sql.DataSource;
  * @Desc: Doris config
  **/
 @Configuration
-public class DorisDataSourceConfig {
-    private static Logger logger = LoggerFactory.getLogger(DorisDataSourceConfig.class);
+public class DorisConfig {
+    private static Logger logger = LoggerFactory.getLogger(DorisConfig.class);
 
-    @Bean(name = "dorisDataSource")
-    @ConfigurationProperties(prefix = "datasource.doris")
-    public DataSource prestoDataSource() {
-        return DataSourceBuilder.create().build();
-    }
-
-    @Bean(name = "dorisTemplate")
-    public JdbcTemplate dorisJdbcTemplate(@Qualifier("dorisDataSource") DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
-    }
+//    @Bean(name = "dorisDataSource")
+//    @ConfigurationProperties(prefix = "datasource.doris")
+//    public DataSource prestoDataSource() {
+//        return DataSourceBuilder.create().build();
+//    }
+//
+//    @Bean(name = "dorisTemplate")
+//    public JdbcTemplate dorisJdbcTemplate(@Qualifier("dorisDataSource") DataSource dataSource) {
+//        return new JdbcTemplate(dataSource);
+//    }
 }

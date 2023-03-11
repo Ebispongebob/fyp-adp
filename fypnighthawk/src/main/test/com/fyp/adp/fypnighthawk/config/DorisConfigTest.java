@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AdpApplication.class)
-public class DorisDataSourceConfigTest {
+public class DorisConfigTest {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 

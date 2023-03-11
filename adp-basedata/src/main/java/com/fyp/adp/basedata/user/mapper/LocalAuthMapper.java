@@ -1,7 +1,6 @@
 package com.fyp.adp.basedata.user.mapper;
 
 import com.fyp.adp.basedata.user.entity.LocalAuth;
-import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;
 
 /**

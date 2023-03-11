@@ -14,28 +14,27 @@ import javax.persistence.*;
 public class DatasourceConfig {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "JDBC")
-    private Long   id;
+    private Long    id;
     @Column(name = "datasource_name")
-    private String datasourceName;
+    private String  datasourceName;
     @Column(name = "username")
-    private String username;
+    private String  username;
     @Column(name = "password")
-    private String password;
-    @Column(name = "url")
-    private String url;
+    private String  password;
     @Column(name = "host")
-    private String host;
+    private String  host;
     @Column(name = "port")
-    private String port;
-
-    @Column(name = "desc")
-    private String desc;
+    private String  port;
+    @Column(name = "url")
+    private String  url;
+    @Column(name = "_desc")
+    private String  desc;
     @Column(name = "driver")
-    private String driver;
+    private String  driver;
     @Column(name = "enable")
     private Integer enable;
     @Column(name = "data_provider_type")
-    private String dataProviderType;
+    private String  dataProviderType;
     @Column(name = "extra")
-    private String extra;
+    private String  extra;
 }

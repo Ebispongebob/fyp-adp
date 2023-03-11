@@ -47,7 +47,7 @@ create table if not exists `datasource_config`
     `host`               varchar(255),
     `port`               varchar(255),
     `url`                varchar(255),
-    `desc`               varchar(255),
+    `_desc`               varchar(255),
     `driver`             varchar(255),
     `enable`             int,
     `data_provider_type` varchar(255),
@@ -57,5 +57,7 @@ create table if not exists `datasource_config`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-insert into `datasource_config` (`id`, `datasource_name`, `username`, `password`, `url`, `host`, `port`, `desc`, `driver`, `enable`, `data_provider_type`, `extra`)
+insert into `datasource_config` (`id`, `datasource_name`, `username`, `password`, `url`, `host`, `port`, `_desc`, `driver`, `enable`, `data_provider_type`, `extra`)
 values (0006379, 'redis', null, '333', null, '43.143.23.30', '6379', 'redis', null, 1, '', '');
+insert into `datasource_config` (`id`, `datasource_name`, `username`, `password`, `url`, `host`, `port`, `_desc`, `driver`, `enable`, `data_provider_type`, `extra`)
+values (0019030, 'doris-luckin', 'idataservice', 'idataservice', 'jdbc:mysql://10.218.23.72:9030/ods_test', '10.218.23.72', '9030', 'doris in luckin', 'com.mysql.jdbc.Driver', 0, '', '{"sql-script-encoding":"UTF-8"}');

@@ -14,6 +14,7 @@ import org.springframework.util.DigestUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -51,14 +52,14 @@ public class AuthService {
         Example          example  = new Example(LocalAuth.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userName", account);
-        List<LocalAuth> localAuths = localAuthMapper.selectByExample(example);
-        if (CollectionUtils.isEmpty(localAuths)) {
+        LocalAuth localAuth = localAuthMapper.selectOneByExample(example);
+        if (Objects.isNull(localAuth)) {
             throw new AuthException("用户名不存在");
         }
-        if (!StringUtils.equals(DigestUtils.md5DigestAsHex(password.getBytes()), localAuths.get(0).getPassword())) {
+        if (!StringUtils.equals(DigestUtils.md5DigestAsHex(password.getBytes()), localAuth.getPassword())) {
             throw new AuthException("用户名或密码不正确");
         }
-        return localAuths.get(0);
+        return localAuth;
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.fyp.adp.fypnighthawk.interceptor;
 
+import com.fyp.adp.common.exception.AuthException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.security.auth.message.AuthException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import static com.fyp.adp.common.constants.InterceptorConstants.BOARD_TOKEN_NAME;
 import static com.fyp.adp.common.constants.InterceptorConstants.DEFAULT_TOKEN;
@@ -38,7 +38,7 @@ public class CommonSessionInterceptor implements HandlerInterceptor {
         }
         String tokenValue = stringRedisTemplate.opsForValue().get(authToken);
         if (StringUtils.isEmpty(tokenValue)) {
-            throw new AuthException("由于长时间未操作，请您重新登陆");
+            throw new AuthException("Token不存在或已失效，请您重新登陆");
         }
         return true;
     }

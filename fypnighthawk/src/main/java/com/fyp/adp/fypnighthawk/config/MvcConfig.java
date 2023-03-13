@@ -30,6 +30,7 @@ public class MvcConfig implements WebMvcConfigurer {
                 //拦截器要拦截的url规则
                 .addPathPatterns("/api/**")
                 .excludePathPatterns("/api/auth/login")
+                .excludePathPatterns("/swagger-ui.html")
                 //拦截器的执行顺序
                 .order(1);
     }

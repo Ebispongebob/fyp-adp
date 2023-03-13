@@ -19,5 +19,10 @@ public interface InterceptorConstants {
     /**
      * Token前缀
      */
-    String COMMON_TOKEN_PREFIX = "ADP_TOKEN_";
+    String COMMON_TOKEN_PREFIX = "ADP_TOKEN:";
+
+    /**
+     * 密钥
+     */
+    String SECRET = "_NIGHTHAWK";
 }

@@ -1,17 +1,14 @@
 package com.fyp.adp.basedata.user.service;
 
 import com.fyp.adp.basedata.user.entity.LocalAuth;
-import com.fyp.adp.basedata.user.entity.UserProfile;
 import com.fyp.adp.basedata.user.mapper.LocalAuthMapper;
 import com.fyp.adp.common.constants.InterceptorConstants;
 import com.fyp.adp.common.exception.AuthException;
 import com.fyp.adp.common.utils.MD5Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 import tk.mybatis.mapper.entity.Example;
 

@@ -1,6 +1,5 @@
 package com.fyp.adp.common.utils;
 
-import com.fyp.adp.common.constants.InterceptorConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.DigestUtils;
 

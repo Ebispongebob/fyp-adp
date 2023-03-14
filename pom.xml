@@ -30,7 +30,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tk.mybatis.mapper.version>3.3.8</tk.mybatis.mapper.version>
-        <fastjson2.version>2.0.21</fastjson2.version>
+        <fastjson2.version>2.0.25</fastjson2.version>
     </properties>
 
     <dependencies>
@@ -73,13 +73,13 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>3.1.14</version>
+            <version>8.0.32</version>
         </dependency>
         <!--通用mapper-->
         <dependency>
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper-spring-boot-starter</artifactId>
-            <version>2.1.2</version>
+            <version>4.2.2</version>
         </dependency>
 
         <!--添加lombok支持，可以省掉写get和set方法-->
@@ -94,12 +94,6 @@
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2-extension</artifactId>
             <version>${fastjson2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fyp.adp</groupId>
-            <artifactId>adp-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

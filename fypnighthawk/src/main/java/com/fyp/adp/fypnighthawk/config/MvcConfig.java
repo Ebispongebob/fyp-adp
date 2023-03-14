@@ -1,12 +1,19 @@
 package com.fyp.adp.fypnighthawk.config;
 
+import com.fyp.adp.common.constants.InterceptorConstants;
 import com.fyp.adp.fypnighthawk.interceptor.CommonSessionInterceptor;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Map;
 
 /**
  * @author MuxBwf
@@ -35,4 +42,17 @@ public class MvcConfig implements WebMvcConfigurer {
                 .order(1);
     }
 
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info().title("My App").version("1.0.0"))
+                // Components section defines Security Scheme "mySecretHeader"
+                .components(new Components()
+                                    .addSecuritySchemes("mySecretHeader", new SecurityScheme()
+                                            .type(SecurityScheme.Type.APIKEY)
+                                            .in(SecurityScheme.In.HEADER)
+                                            .name(InterceptorConstants.BOARD_TOKEN_NAME)))
+                // AddSecurityItem section applies created scheme globally
+                .addSecurityItem(new SecurityRequirement().addList("mySecretHeader"));
+    }
 }

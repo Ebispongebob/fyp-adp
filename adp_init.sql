@@ -47,7 +47,7 @@ create table if not exists `datasource_config`
     `host`               varchar(255),
     `port`               varchar(255),
     `url`                varchar(255),
-    `_desc`               varchar(255),
+    `_desc`              varchar(255),
     `driver`             varchar(255),
     `enable`             int,
     `data_provider_type` varchar(255),
@@ -60,4 +60,53 @@ create table if not exists `datasource_config`
 insert into `datasource_config` (`id`, `datasource_name`, `username`, `password`, `url`, `host`, `port`, `_desc`, `driver`, `enable`, `data_provider_type`, `extra`)
 values (0006379, 'redis', null, '333', null, '43.143.23.30', '6379', 'redis', null, 1, '', '');
 insert into `datasource_config` (`id`, `datasource_name`, `username`, `password`, `url`, `host`, `port`, `_desc`, `driver`, `enable`, `data_provider_type`, `extra`)
-values (0019030, 'doris-luckin', 'idataservice', 'idataservice', 'jdbc:mysql://10.218.23.72:9030/ods_test', '10.218.23.72', '9030', 'doris in luckin', 'com.mysql.jdbc.Driver', 0, '', '{"sql-script-encoding":"UTF-8"}');
+values (0019030, 'doris-luckin', 'idataservice', 'idataservice', 'jdbc:mysql://10.218.23.72:9030/ods_test', '10.218.23.72', '9030', 'doris in luckin', 'com.mysql.jdbc.Driver', 0,
+        '', '{"sql-script-encoding":"UTF-8"}');
+
+CREATE TABLE `event_type`
+(
+    `id`          BIGINT                       NOT NULL,
+    `event_type`  VARCHAR(255)                 NOT NULL,
+    `status`      ENUM ('ENABLED', 'DISABLED') NOT NULL DEFAULT 'ENABLED',
+    `_desc`       varchar(255)                          DEFAULT NULL,
+    `create_time` DATETIME                              DEFAULT CURRENT_TIMESTAMP,
+    `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
+    primary key (`id`),
+    UNIQUE INDEX index_rule_name_uniq (event_type ASC)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+insert into event_type (id, event_type, _desc)
+values (1, 'npe', 'Null point exception');
+insert into event_type (id, event_type, _desc)
+values (2, 'uv', 'unique visit');
+insert into event_type (id, event_type, _desc)
+values (3, 'pv', 'page visit');
+insert into event_type (id, event_type, _desc)
+values (4, 'timeout', 'request timeout / response timeout');
+insert into event_type (id, event_type, _desc)
+values (5, 'weekend', 'on the weekend');
+
+CREATE TABLE `adp_rule`
+(
+    `id`            BIGINT                                      NOT NULL,
+    `rule_name`     VARCHAR(255)                                NOT NULL,
+    `event_type`    VARCHAR(255)                                NOT NULL,
+    `event_id`      BIGINT                                      NOT NULL,
+    `window_size`   INT                                         NOT NULL comment '窗口大小，秒; -1及不限时间',
+    `threshold`     INT                                         NOT NULL comment '阈值',
+    `condition`     ENUM ('EQUAL', 'GREATER_THAN', 'LESS_THAN') NOT NULL comment '条件',
+    `alert_message` VARCHAR(255)                                NOT NULL,
+    `status`        ENUM ('ENABLED', 'DISABLED')                NOT NULL DEFAULT 'ENABLED',
+    `create_time`   DATETIME                                             DEFAULT CURRENT_TIMESTAMP,
+    `update_time`   DATETIME ON UPDATE CURRENT_TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP,
+    primary key (`id`),
+    UNIQUE INDEX index_rule_name_uniq (rule_name ASC)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+insert into adp_rule (id, rule_name, event_type, event_id, window_size, threshold, `condition`, alert_message)
+VALUES (1, 'npe_eq_1_immediately', 'npe', 1, -1, 1, 'EQUAL', 'null point exception');
+insert into adp_rule (id, rule_name, event_type, event_id, window_size, threshold, `condition`, alert_message)
+values (2, 'uv_gt_1000_10s', 'uv', 2, 10, 1000, 'GREATER_THAN', 'unique visit greater than 1000 times in 10 seconds');
+

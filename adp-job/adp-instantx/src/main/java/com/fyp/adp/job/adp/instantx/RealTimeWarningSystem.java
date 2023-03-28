@@ -30,7 +30,7 @@ public class RealTimeWarningSystem {
         properties.setProperty("bootstrap.servers", "localhost:9092");
         properties.setProperty("group.id", "test");
 
-        // 创建Kafka消费者并设置水印策略
+        // 创建Kafka消费者
         FlinkKafkaConsumer<Event> kafkaConsumer = new FlinkKafkaConsumer<>(
                 "input-topic",
                 new EventSchema(),

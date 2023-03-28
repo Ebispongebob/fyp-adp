@@ -14,13 +14,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-/**
- * 持久hdfs层面相关API
- * ddd
- *
- * @author wangzhen
- * @date 2018-11-12
- */
+
 public class HDFSDatasource {
 
     private static final Integer        BUFFER_SIZE    = 8096;

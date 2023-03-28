@@ -10,10 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-/**
- * @author: 熊思敏 (simin.xiong@luckincoffee.com)
- * @date: 2021/10/8 3:30 下午
- */
 public class HDFSSupport {
 
     private static Logger LOGGER = LoggerFactory.getLogger(HDFSSupport.class);

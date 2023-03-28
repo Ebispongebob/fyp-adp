@@ -17,11 +17,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Map;
 
-/**
- * @Description: flink入口的基础类
- * @Author: lay yongqian.lai@luckincoffee.com
- * @Date: 2022/3/14 下午2:34
- */
 public abstract class BaseJob implements Job {
 
     protected static Logger logger = LoggerFactory.getLogger(BaseJob.class);

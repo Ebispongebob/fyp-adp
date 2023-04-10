@@ -65,12 +65,12 @@ values (0019030, 'doris-luckin', 'idataservice', 'idataservice', 'jdbc:mysql://1
 
 CREATE TABLE `event_type`
 (
-    `id`          BIGINT                       NOT NULL,
-    `event_type`  VARCHAR(255)                 NOT NULL,
-    `status`      ENUM ('ENABLED', 'DISABLED') NOT NULL DEFAULT 'ENABLED',
-    `_desc`       varchar(255)                          DEFAULT NULL,
-    `create_time` DATETIME                              DEFAULT CURRENT_TIMESTAMP,
-    `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
+    `id`          BIGINT       NOT NULL,
+    `event_type`  VARCHAR(255) NOT NULL,
+    `enable`      BOOLEAN                              DEFAULT true,
+    `_desc`       varchar(255)                         DEFAULT NULL,
+    `create_time` DATETIME                             DEFAULT CURRENT_TIMESTAMP,
+    `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key (`id`),
     UNIQUE INDEX index_rule_name_uniq (event_type ASC)
 ) ENGINE = InnoDB
@@ -87,6 +87,34 @@ values (4, 'timeout', 'request timeout / response timeout');
 insert into event_type (id, event_type, _desc)
 values (5, 'weekend', 'on the weekend');
 
+CREATE TABLE `event_record`
+(
+    `id`            BIGINT       NOT NULL,
+    `reference_id`  VARCHAR(255) NOT NULL comment '来源id',
+    `event_type`    VARCHAR(255) NOT NULL,
+    `event_time`    DATETIME     NOT NULL comment '事件时间',
+    `received_time` DATETIME     NOT NULL comment '接收时间',
+    `sink_time`     DATETIME DEFAULT CURRENT_TIMESTAMP comment '落库时间',
+    primary key (`id`),
+    UNIQUE INDEX index_rule_name_uniq (event_type ASC)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+CREATE TABLE `event_reference_rel`
+(
+    `reference_id` VARCHAR(255) NOT NULL comment '来源id',
+    `event_type`   VARCHAR(255) NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+insert into event_reference_rel(reference_id, event_type)
+VALUES ('kafka-app1', 'npe');
+insert into event_reference_rel(reference_id, event_type)
+VALUES ('kafka-app1', 'timeout');
+insert into event_reference_rel(reference_id, event_type)
+VALUES ('kafka-app2', 'timeout');
+
+
 CREATE TABLE `adp_rule`
 (
     `id`            BIGINT                                      NOT NULL,
@@ -97,9 +125,9 @@ CREATE TABLE `adp_rule`
     `threshold`     INT                                         NOT NULL comment '阈值',
     `condition`     ENUM ('EQUAL', 'GREATER_THAN', 'LESS_THAN') NOT NULL comment '条件',
     `alert_message` VARCHAR(255)                                NOT NULL,
-    `status`        ENUM ('ENABLED', 'DISABLED')                NOT NULL DEFAULT 'ENABLED',
-    `create_time`   DATETIME                                             DEFAULT CURRENT_TIMESTAMP,
-    `update_time`   DATETIME ON UPDATE CURRENT_TIMESTAMP                 DEFAULT CURRENT_TIMESTAMP,
+    `enable`        BOOLEAN                              DEFAULT true,
+    `create_time`   DATETIME                             DEFAULT CURRENT_TIMESTAMP,
+    `update_time`   DATETIME ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key (`id`),
     UNIQUE INDEX index_rule_name_uniq (rule_name ASC)
 ) ENGINE = InnoDB
@@ -110,3 +138,17 @@ VALUES (1, 'npe_eq_1_immediately', 'npe', 1, -1, 1, 'EQUAL', 'null point excepti
 insert into adp_rule (id, rule_name, event_type, event_id, window_size, threshold, `condition`, alert_message)
 values (2, 'uv_gt_1000_10s', 'uv', 2, 10, 1000, 'GREATER_THAN', 'unique visit greater than 1000 times in 10 seconds');
 
+CREATE TABLE `valid_reference`
+(
+    `id`           BIGINT       NOT NULL,
+    `reference_id` VARCHAR(255) NOT NULL,
+    `enable`       BOOLEAN      NOT NULL DEFAULT true,
+    primary key (`id`),
+    UNIQUE INDEX index_rule_name_uniq (reference_id ASC)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+insert into valid_reference(id, reference_id)
+VALUES (1, 'kafka-app1');
+insert into valid_reference(id, reference_id)
+VALUES (2, 'kafka-app2');

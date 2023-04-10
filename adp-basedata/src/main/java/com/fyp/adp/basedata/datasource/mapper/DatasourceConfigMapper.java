@@ -1,4 +1,4 @@
-package com.fyp.adp.basedata.user.mapper;
+package com.fyp.adp.basedata.datasource.mapper;
 
 import com.fyp.adp.basedata.user.entity.DatasourceConfig;
 import tk.mybatis.mapper.common.Mapper;

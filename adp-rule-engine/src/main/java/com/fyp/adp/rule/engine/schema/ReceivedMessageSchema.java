@@ -1,8 +1,8 @@
-package com.fyp.adp.job.adp.instantx.schema;
+package com.fyp.adp.rule.engine.schema;
 
 import com.alibaba.fastjson.JSON;
-import com.fyp.adp.basedata.event.Event;
 import com.fyp.adp.common.utils.JsonUtils;
+import com.fyp.adp.rule.engine.message.ReceivedMessage;
 import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
@@ -11,27 +11,27 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import java.nio.charset.StandardCharsets;
 
-public class EventSchema implements SerializationSchema<Event>, KafkaDeserializationSchema<Event> {
+public class ReceivedMessageSchema implements SerializationSchema<ReceivedMessage>, KafkaDeserializationSchema<ReceivedMessage> {
 
     @Override
-    public byte[] serialize(Event element) {
+    public byte[] serialize(ReceivedMessage element) {
         return JsonUtils.toJsonString(element).getBytes(StandardCharsets.UTF_8);
     }
 
     @Override
-    public boolean isEndOfStream(Event nextElement) {
+    public boolean isEndOfStream(ReceivedMessage nextElement) {
         return false;
     }
 
     @Override
-    public Event deserialize(ConsumerRecord<byte[], byte[]> record) throws Exception {
+    public ReceivedMessage deserialize(ConsumerRecord<byte[], byte[]> record) throws Exception {
         String value = new String(record.value(), StandardCharsets.UTF_8);
-        return JSON.parseObject(value, Event.class);
+        return JSON.parseObject(value, ReceivedMessage.class);
     }
 
     @Override
-    public TypeInformation<Event> getProducedType() {
-        return TypeInformation.of(new TypeHint<Event>() {
+    public TypeInformation<ReceivedMessage> getProducedType() {
+        return TypeInformation.of(new TypeHint<ReceivedMessage>() {
         });
     }
 }

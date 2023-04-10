@@ -6,7 +6,6 @@ import com.fyp.adp.rule.engine.info.MatchInfo;
 import com.fyp.adp.rule.engine.info.SinkInfo;
 import com.fyp.adp.rule.engine.info.SourceInfo;
 import com.google.common.collect.Maps;
-import jdk.internal.event.Event;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.contrib.streaming.state.EmbeddedRocksDBStateBackend;
 import org.apache.flink.contrib.streaming.state.PredefinedOptions;
@@ -22,7 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseRtEngine implements RtEngine {
+public abstract class BaseRtEngine<T> implements RtEngine {
 
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -54,10 +53,10 @@ public abstract class BaseRtEngine implements RtEngine {
         initEnv(env, configuration);
 
         // 初始化输入数据源
-        DataStream<Event> source = initSource(env, configuration, configuration.getSourceInfo());
+        DataStream<T> source = initSource(env, configuration, configuration.getSourceInfo());
 
         // 初始化匹配处理逻辑
-        DataStream<Map<String, List<Event>>> match = initMatcher(env, configuration, configuration.getMatchInfo(), source);
+        DataStream<Map<String, List<T>>> match = initMatcher(env, configuration, configuration.getMatchInfo(), source);
 
         // 初始化输出目的地
         initSink(env, configuration, configuration.getSinkInfo(), match);
@@ -70,7 +69,7 @@ public abstract class BaseRtEngine implements RtEngine {
      * @param sinkInfo 输出配置
      * @param filterStream 处理流
      */
-    protected abstract void initSink(StreamExecutionEnvironment env, Configuration configuration, SinkInfo sinkInfo, DataStream<Map<String, List<Event>>> filterStream);
+    protected abstract void initSink(StreamExecutionEnvironment env, Configuration configuration, SinkInfo sinkInfo, DataStream<Map<String, List<T>>> filterStream);
 
     /**
      * 初始化处理流
@@ -80,8 +79,8 @@ public abstract class BaseRtEngine implements RtEngine {
      * @param configuration 配置
      * @return 匹配流、超时流二选一
      */
-    protected abstract DataStream<Map<String, List<Event>>> initMatcher(StreamExecutionEnvironment env, Configuration configuration, MatchInfo matchInfo,
-            DataStream<Event> sourceStream);
+    protected abstract DataStream<Map<String, List<T>>> initMatcher(StreamExecutionEnvironment env, Configuration configuration, MatchInfo matchInfo,
+            DataStream<T> sourceStream);
 
     /**
      * 初始化输入流
@@ -90,7 +89,7 @@ public abstract class BaseRtEngine implements RtEngine {
      * @param configuration 配置
      * @return 输入流
      */
-    protected abstract DataStream<Event> initSource(StreamExecutionEnvironment env, Configuration configuration, SourceInfo sourceInfo);
+    protected abstract DataStream<T> initSource(StreamExecutionEnvironment env, Configuration configuration, SourceInfo sourceInfo);
 
     /**
      * 初始化执行环境

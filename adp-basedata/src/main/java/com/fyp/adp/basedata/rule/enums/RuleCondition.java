@@ -1,4 +1,4 @@
-package com.fyp.adp.basedata.rule;
+package com.fyp.adp.basedata.rule.enums;
 
 public enum RuleCondition {
     EQUAL,

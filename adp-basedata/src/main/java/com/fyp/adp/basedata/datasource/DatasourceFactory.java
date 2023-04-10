@@ -2,7 +2,7 @@ package com.fyp.adp.basedata.datasource;
 
 import com.fyp.adp.basedata.datasource.enums.DatasourceType;
 import com.fyp.adp.basedata.user.entity.DatasourceConfig;
-import com.fyp.adp.basedata.user.mapper.DatasourceConfigMapper;
+import com.fyp.adp.basedata.datasource.mapper.DatasourceConfigMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

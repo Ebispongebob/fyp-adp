@@ -16,11 +16,9 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>adp-rule-engine</module>
         <module>adp-common</module>
         <module>fypnighthawk</module>
         <module>adp-basedata</module>
-        <module>adp-job</module>
     </modules>
 
     <properties>

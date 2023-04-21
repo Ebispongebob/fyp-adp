@@ -75,7 +75,8 @@ CREATE TABLE `event_type`
     UNIQUE INDEX index_rule_name_uniq (event_type ASC)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
-
+insert into event_type (id, event_type, _desc)
+values (0, 'normal', 'Normal');
 insert into event_type (id, event_type, _desc)
 values (1, 'npe', 'Null point exception');
 insert into event_type (id, event_type, _desc)
@@ -89,16 +90,25 @@ values (5, 'weekend', 'on the weekend');
 
 CREATE TABLE `event_record`
 (
-    `id`            BIGINT       NOT NULL,
+    `id`            VARCHAR(255)       NOT NULL,
     `reference_id`  VARCHAR(255) NOT NULL comment '来源id',
     `event_type`    VARCHAR(255) NOT NULL,
     `event_time`    DATETIME     NOT NULL comment '事件时间',
     `received_time` DATETIME     NOT NULL comment '接收时间',
     `sink_time`     DATETIME DEFAULT CURRENT_TIMESTAMP comment '落库时间',
-    primary key (`id`),
-    UNIQUE INDEX index_rule_name_uniq (event_type ASC)
+    primary key (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('b17ufsdjfqpk2e', 'kafka-app1', 'normal', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('92ejnd108udoaa', 'kafka-app1', 'npe', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('091ah98hkjasbn', 'kafka-app2', 'normal', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('12szcwr24fds2e', 'flume-1', 'normal', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('q2edcsazf2e1da', 'flume-2', 'npe', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('091ah98hkjasbn', 'eventlog104', 'normal', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('d12df4ygsd32rf', 'eventlog108', 'normal', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('23dfs23fdsf32f', 'game1-anti-log', 'npe', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('2d2r9ai0dqija9', 'game1-anti-log', 'normal', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('1d2d23f34tg6sw', 'game2-anti-log', 'normal', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 CREATE TABLE `event_reference_rel`
 (
@@ -152,3 +162,15 @@ insert into valid_reference(id, reference_id)
 VALUES (1, 'kafka-app1');
 insert into valid_reference(id, reference_id)
 VALUES (2, 'kafka-app2');
+insert into valid_reference(id, reference_id)
+VALUES (3, 'flume-1');
+insert into valid_reference(id, reference_id)
+VALUES (4, 'flume-2');
+insert into valid_reference(id, reference_id)
+VALUES (5, 'eventlog104');
+insert into valid_reference(id, reference_id)
+VALUES (6, 'eventlog108');
+insert into valid_reference(id, reference_id)
+VALUES (7, 'game1-anti-log');
+insert into valid_reference(id, reference_id)
+VALUES (8, 'game2-anti-log');

@@ -11,6 +11,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.util.Enumeration;
+
 import static com.fyp.adp.common.constants.InterceptorConstants.BOARD_TOKEN_NAME;
 import static com.fyp.adp.common.constants.InterceptorConstants.DEFAULT_TOKEN;
 
@@ -28,8 +30,9 @@ public class CommonSessionInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String authToken = request.getHeader(BOARD_TOKEN_NAME);
+
         if (StringUtils.isEmpty(authToken)) {
-            throw new AuthException("Token不能为空！请登录！");
+            throw new AuthException("Token is empty！please login！");
         }
 
         //默认token 不校验权限

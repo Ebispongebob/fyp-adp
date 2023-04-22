@@ -1,11 +1,13 @@
 package com.fyp.adp.common.utils;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
@@ -373,5 +375,20 @@ public class DateUtils {
     public static boolean isAm() {
         Calendar calendar = Calendar.getInstance();
         return Calendar.AM == calendar.get(Calendar.AM_PM);
+    }
+
+    /**
+     * 获取过去一周
+     */
+    public static List<String> getLastWeekDates() {
+        List<String>      lastWeekDates = new ArrayList<>();
+        DateTimeFormatter formatter     = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate         today         = LocalDate.now();
+        for (int i = 1; i <= 7; i++) {
+            LocalDate date          = today.minusDays(i);
+            String    formattedDate = date.format(formatter);
+            lastWeekDates.add(formattedDate);
+        }
+        return lastWeekDates;
     }
 }

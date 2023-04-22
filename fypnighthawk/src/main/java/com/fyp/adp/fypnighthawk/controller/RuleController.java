@@ -18,11 +18,26 @@ public class RuleController {
 
     @GetMapping("/event/list")
     public Result getRecordList() {
-        return Result.success(eventService.get10Records());
+        return Result.success(eventService.get20Records());
     }
 
     @GetMapping("event/rank")
     public Result getRankList() {
         return Result.success(eventService.getRankList());
+    }
+
+    @GetMapping("event/rate")
+    public Result getTopEventRate() {
+        return Result.success(eventService.getEventRateList());
+    }
+
+    @GetMapping("event/week/count")
+    public Result getLastWeekEventCounts() {
+        return Result.success(eventService.getLastWeekEventCounts());
+    }
+
+    @GetMapping("event/type/count")
+    public Result getEventTypeCounts() {
+        return Result.success(eventService.getEventTypeCounts());
     }
 }

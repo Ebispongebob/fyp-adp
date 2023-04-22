@@ -90,7 +90,7 @@ values (5, 'weekend', 'on the weekend');
 
 CREATE TABLE `event_record`
 (
-    `id`            VARCHAR(255)       NOT NULL,
+    `id`            VARCHAR(255) NOT NULL,
     `reference_id`  VARCHAR(255) NOT NULL comment '来源id',
     `event_type`    VARCHAR(255) NOT NULL,
     `event_time`    DATETIME     NOT NULL comment '事件时间',
@@ -109,6 +109,11 @@ insert into event_record(id, reference_id, event_type, event_time, received_time
 insert into event_record(id, reference_id, event_type, event_time, received_time) value ('23dfs23fdsf32f', 'game1-anti-log', 'npe', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 insert into event_record(id, reference_id, event_type, event_time, received_time) value ('2d2r9ai0dqija9', 'game1-anti-log', 'normal', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 insert into event_record(id, reference_id, event_type, event_time, received_time) value ('1d2d23f34tg6sw', 'game2-anti-log', 'normal', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('cvbasdazxcq321', 'flume-1', 'uv', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('paodjd23f34tgw', 'flume-1', 'uv', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('p12asd23f34tgw', 'eventlog104', 'timeout', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('12swqecq3rase2', 'eventlog104', 'pv', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into event_record(id, reference_id, event_type, event_time, received_time) value ('nm2d23f34tg6sw', 'eventlog104', 'pv', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 CREATE TABLE `event_reference_rel`
 (
@@ -174,3 +179,13 @@ insert into valid_reference(id, reference_id)
 VALUES (7, 'game1-anti-log');
 insert into valid_reference(id, reference_id)
 VALUES (8, 'game2-anti-log');
+
+CREATE TABLE `alert_record`
+(
+    `id`         BIGINT       NOT NULL,
+    `record_id`  VARCHAR(255) NOT NULL,
+    `alert_way`  VARCHAR(255) NOT NULL,
+    `alert_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    primary key (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;

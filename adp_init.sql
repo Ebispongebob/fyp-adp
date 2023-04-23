@@ -189,3 +189,33 @@ CREATE TABLE `alert_record`
     primary key (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
+
+CREATE TABLE `adp_reference`
+(
+    `id`           INT UNSIGNED AUTO_INCREMENT,
+    `reference_id` VARCHAR(30)  NOT NULL,
+    `description`  VARCHAR(255) NOT NULL,
+    `broker_addr`  VARCHAR(255) NOT NULL,
+    `topic`        VARCHAR(255) NOT NULL,
+    `create_time`  DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `enable`       BOOLEAN  DEFAULT true,
+    primary key (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+insert into adp_reference(reference_id, description, broker_addr, topic)
+values ('kafka-app1', 'kafka app1', 'localhost:9092', 'kafka_app_01');
+insert into adp_reference(reference_id, description, broker_addr, topic)
+values ('kafka-app2', 'kafka app2', 'localhost:9092', 'kafka_app_02');
+insert into adp_reference(reference_id, description, broker_addr, topic)
+values ('flume-1', 'flume 1', 'localhost:9092', 'flume_01');
+insert into adp_reference(reference_id, description, broker_addr, topic)
+values ('flume-2', 'flume 2', 'localhost:9092', 'flume_02');
+insert into adp_reference(reference_id, description, broker_addr, topic)
+values ('eventlog104', 'eventlog 104', 'localhost:9092', 'eventlog_104');
+insert into adp_reference(reference_id, description, broker_addr, topic)
+values ('eventlog108', 'eventlog 108', 'localhost:9092', 'eventlog108');
+insert into adp_reference(reference_id, description, broker_addr, topic)
+values ('game1-anti-log', 'game1 anti log', 'localhost:9092', 'game1_anti_log');
+insert into adp_reference(reference_id, description, broker_addr, topic)
+values ('game2-anti-log', 'game2 anti log', 'localhost:9092', 'game2_anti_log');

@@ -391,4 +391,11 @@ public class DateUtils {
         }
         return lastWeekDates;
     }
+
+    /**
+     * timestamp2String
+     */
+    public static String timestamp2format(Long timestamp) {
+        return new SimpleDateFormat(FORMAT).format(timestamp);
+    }
 }

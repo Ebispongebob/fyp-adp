@@ -8,11 +8,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
-import java.sql.Ref;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ReferenceService {
@@ -30,8 +31,11 @@ public class ReferenceService {
     /**
      * 删除reference
      */
-    public int deleteReferenceById(Long id) {
-        return referenceMapper.deleteByPrimaryKey(id);
+    public int deleteReferenceById(String referenceId) {
+        Example          example  = new Example(Reference.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("referenceId", referenceId);
+        return referenceMapper.deleteByExample(example);
     }
 
     /**
@@ -44,8 +48,11 @@ public class ReferenceService {
     /**
      * 获取ReferenceById
      */
-    public Reference getReferenceById(Long id) {
-        return referenceMapper.selectByPrimaryKey(id);
+    public List<ReferenceVo> getReferenceById(String referenceId) {
+        Example          example  = new Example(Reference.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.orLike("referenceId", "%" + referenceId + "%");
+        return referenceMapper.selectByExample(example).stream().map(reference -> reference2Vo.apply(reference)).collect(Collectors.toList());
     }
 
     /**
@@ -53,7 +60,8 @@ public class ReferenceService {
      */
     public List<ReferenceVo> getAllReferences() {
         List<Reference> references = referenceMapper.selectAll();
-        return references.stream().map(reference -> reference2Vo.apply(reference)).collect(Collectors.toList());
+        Stream<Reference> sorted   = references.stream().sorted((o1, o2) -> o1.getCreateTime().before(o2.getCreateTime()) ? 1 : -1);
+        return sorted.map(reference -> reference2Vo.apply(reference)).collect(Collectors.toList());
     }
 
     private Function<Reference, ReferenceVo> reference2Vo = reference -> {

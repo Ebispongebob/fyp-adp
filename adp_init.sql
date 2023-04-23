@@ -198,7 +198,6 @@ CREATE TABLE `adp_reference`
     `broker_addr`  VARCHAR(255) NOT NULL,
     `topic`        VARCHAR(255) NOT NULL,
     `create_time`  DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `enable`       BOOLEAN  DEFAULT true,
     primary key (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;

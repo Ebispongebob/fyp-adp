@@ -52,7 +52,7 @@ public class ReferenceService {
         Example          example  = new Example(Reference.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.orLike("referenceId", "%" + referenceId + "%");
-        return referenceMapper.selectByExample(example).stream().map(reference -> reference2Vo.apply(reference)).collect(Collectors.toList());
+        return referenceMapper.selectByExample(example).stream().sorted((o1, o2) -> o1.getCreateTime().before(o2.getCreateTime()) ? 1 : -1).map(reference -> reference2Vo.apply(reference)).collect(Collectors.toList());
     }
 
     /**
@@ -61,7 +61,7 @@ public class ReferenceService {
     public List<ReferenceVo> getAllReferences() {
         List<Reference> references = referenceMapper.selectAll();
         Stream<Reference> sorted   = references.stream().sorted((o1, o2) -> o1.getCreateTime().before(o2.getCreateTime()) ? 1 : -1);
-        return sorted.map(reference -> reference2Vo.apply(reference)).collect(Collectors.toList());
+        return sorted.map(reference2Vo).collect(Collectors.toList());
     }
 
     private Function<Reference, ReferenceVo> reference2Vo = reference -> {

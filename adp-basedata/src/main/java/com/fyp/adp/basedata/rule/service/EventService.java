@@ -1,9 +1,9 @@
 package com.fyp.adp.basedata.rule.service;
 
 import com.fyp.adp.basedata.rule.entity.EventRecord;
-import com.fyp.adp.basedata.rule.entity.EventReferenceRel;
+import com.fyp.adp.basedata.rule.entity.RuleReferenceRel;
 import com.fyp.adp.basedata.rule.mapper.EventRecordMapper;
-import com.fyp.adp.basedata.rule.mapper.EventReferenceRelMapper;
+import com.fyp.adp.basedata.rule.mapper.RuleReferenceRelMapper;
 import com.fyp.adp.basedata.rule.vo.EventTypeCountVo;
 import com.fyp.adp.basedata.rule.vo.RankListVo;
 import com.fyp.adp.basedata.rule.vo.RecordListVo;
@@ -25,18 +25,22 @@ public class EventService {
     String format = "yyyy-MM-dd hh:mm:ss";
 
     @Autowired
-    EventReferenceRelMapper eventReferenceRelMapper;
+    RuleReferenceRelMapper ruleReferenceRelMapper;
 
     @Autowired
     EventRecordMapper eventRecordMapper;
 
     /**
      * 添加事件来源绑定
-     * @param event 事件 & 来源
+     * @param referenceId reference id
+     * @param ruleName rule
      * @return 是否成功
      */
-    public Integer addEvent(EventReferenceRel event) {
-        return eventReferenceRelMapper.insert(event);
+    public Integer addEvent(String referenceId, String ruleName) {
+        RuleReferenceRel rel = new RuleReferenceRel();
+        rel.setRuleName(ruleName);
+        rel.setReferenceId(referenceId);
+        return ruleReferenceRelMapper.insert(rel);
     }
 
     /**

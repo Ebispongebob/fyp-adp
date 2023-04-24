@@ -23,6 +23,4 @@ public class Reference {
     private String  topic;
     @Column(name = "create_time")
     private Date    createTime;
-    @Column(name = "enable")
-    private Boolean enable;
 }

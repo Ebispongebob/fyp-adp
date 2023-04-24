@@ -1,3 +1,4 @@
+# user profile
 create table if not exists `user_profile`
 (
     `id`          bigint AUTO_INCREMENT,
@@ -19,6 +20,7 @@ values ('adp', 'r-adp', '13202302172', 'adp@adp.com', '2023-02-18 00:00:30', '20
 insert into `user_profile` (`name`, `code`, `phone`, `email`, `create_time`, `update_time`, `status`)
 values ('manager', 'w-manager', '13202302173', 'manager@adp.com', '2023-02-18 10:05:30', '2023-02-18 10:05:30', 'normal');
 
+# auth
 create table if not exists `local_auth`
 (
     `id`         bigint,
@@ -38,6 +40,7 @@ values (10002, 'r-adp', 'adp', '13202302172', 'adp@adp.com', 'e219be8994730c07d8
 insert into `local_auth` (`id`, `user_code`, `user_name`, `user_phone`, `user_email`, `password`)
 values (10003, 'w-manager', 'manager', '13202302173', 'manager@adp.com', '1d0258c2440a8d19e716292b231e3190');
 
+# datasource config for web
 create table if not exists `datasource_config`
 (
     `id`                 bigint,
@@ -63,6 +66,7 @@ insert into `datasource_config` (`id`, `datasource_name`, `username`, `password`
 values (0019030, 'doris-luckin', 'idataservice', 'idataservice', 'jdbc:mysql://10.218.23.72:9030/ods_test', '10.218.23.72', '9030', 'doris in luckin', 'com.mysql.jdbc.Driver', 0,
         '', '{"sql-script-encoding":"UTF-8"}');
 
+# event type
 CREATE TABLE `event_type`
 (
     `id`          BIGINT       NOT NULL,
@@ -87,7 +91,10 @@ insert into event_type (id, event_type, _desc)
 values (4, 'timeout', 'request timeout / response timeout');
 insert into event_type (id, event_type, _desc)
 values (5, 'weekend', 'on the weekend');
+insert into event_type (id, event_type, _desc)
+values (6, 'blacklist', 'app in blacklist');
 
+# event record
 CREATE TABLE `event_record`
 (
     `id`            VARCHAR(255) NOT NULL,
@@ -115,44 +122,45 @@ insert into event_record(id, reference_id, event_type, event_time, received_time
 insert into event_record(id, reference_id, event_type, event_time, received_time) value ('12swqecq3rase2', 'eventlog104', 'pv', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 insert into event_record(id, reference_id, event_type, event_time, received_time) value ('nm2d23f34tg6sw', 'eventlog104', 'pv', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-CREATE TABLE `event_reference_rel`
+# event reference relation
+CREATE TABLE `rule_reference_rel`
 (
     `reference_id` VARCHAR(255) NOT NULL comment '来源id',
-    `event_type`   VARCHAR(255) NOT NULL
+    `rule_name`    VARCHAR(255) NOT NULL comment 'rule'
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-insert into event_reference_rel(reference_id, event_type)
-VALUES ('kafka-app1', 'npe');
-insert into event_reference_rel(reference_id, event_type)
-VALUES ('kafka-app1', 'timeout');
-insert into event_reference_rel(reference_id, event_type)
-VALUES ('kafka-app2', 'timeout');
+insert into rule_reference_rel(reference_id, rule_name)
+VALUES ('kafka-app1', 'npe_eq_1_immediately');
+insert into rule_reference_rel(reference_id, rule_name)
+VALUES ('kafka-app1', 'uv_gt_1000_10s');
+insert into rule_reference_rel(reference_id, rule_name)
+VALUES ('kafka-app2', 'uv_gt_1000_10s');
 
-
+# rules
 CREATE TABLE `adp_rule`
 (
-    `id`            BIGINT                                      NOT NULL,
-    `rule_name`     VARCHAR(255)                                NOT NULL,
-    `event_type`    VARCHAR(255)                                NOT NULL,
-    `event_id`      BIGINT                                      NOT NULL,
-    `window_size`   INT                                         NOT NULL comment '窗口大小，秒; -1及不限时间',
-    `threshold`     INT                                         NOT NULL comment '阈值',
-    `condition`     ENUM ('EQUAL', 'GREATER_THAN', 'LESS_THAN') NOT NULL comment '条件',
-    `alert_message` VARCHAR(255)                                NOT NULL,
-    `enable`        BOOLEAN                              DEFAULT true,
-    `create_time`   DATETIME                             DEFAULT CURRENT_TIMESTAMP,
-    `update_time`   DATETIME ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `id`           INT UNSIGNED AUTO_INCREMENT,
+    `rule_name`    VARCHAR(255) NOT NULL,
+    `event_type`   VARCHAR(255) NOT NULL,
+    `window_size`  INT          NOT NULL comment '窗口大小，秒; -1及不限时间',
+    `threshold`    INT          NOT NULL comment '阈值, -1及不限',
+    `condition`    VARCHAR(255) NOT NULL comment '条件, "GREATER, LESS, EQUAL, NONE"',
+    `alert_config` VARCHAR(255) NOT NULL,
+    `create_time`  DATETIME DEFAULT CURRENT_TIMESTAMP,
     primary key (`id`),
     UNIQUE INDEX index_rule_name_uniq (rule_name ASC)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-insert into adp_rule (id, rule_name, event_type, event_id, window_size, threshold, `condition`, alert_message)
-VALUES (1, 'npe_eq_1_immediately', 'npe', 1, -1, 1, 'EQUAL', 'null point exception');
-insert into adp_rule (id, rule_name, event_type, event_id, window_size, threshold, `condition`, alert_message)
-values (2, 'uv_gt_1000_10s', 'uv', 2, 10, 1000, 'GREATER_THAN', 'unique visit greater than 1000 times in 10 seconds');
+insert into adp_rule (rule_name, event_type, window_size, threshold, `condition`, alert_config)
+VALUES ('npe_eq_1', 'npe', -1, -1, 'EQUAL', '{"way":"bot","botId": 1,"msg":"null point exception"}');
+insert into adp_rule (rule_name, event_type, window_size, threshold, `condition`, alert_config)
+values ('uv_gt_1000_10s', 'uv', 10, 1000, 'GREATER_THAN', '{"way":"email","email": "example@outlook.com","msg":"unique visit greater than 1000 times in 10 seconds"}');
+insert into adp_rule (rule_name, event_type, window_size, threshold, `condition`, alert_config)
+VALUES ('refer_eq_blacklist', 'blacklist', -1, -1, 'EQUAL', '{"way":"bot","botId": 1, "msg":"app in blacklist"}');
 
+# valid reference
 CREATE TABLE `valid_reference`
 (
     `id`           BIGINT       NOT NULL,
@@ -180,6 +188,7 @@ VALUES (7, 'game1-anti-log');
 insert into valid_reference(id, reference_id)
 VALUES (8, 'game2-anti-log');
 
+# alert record
 CREATE TABLE `alert_record`
 (
     `id`         BIGINT       NOT NULL,
@@ -190,6 +199,7 @@ CREATE TABLE `alert_record`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
+# reference
 CREATE TABLE `adp_reference`
 (
     `id`           INT UNSIGNED AUTO_INCREMENT,
@@ -218,3 +228,13 @@ insert into adp_reference(reference_id, description, broker_addr, topic)
 values ('game1-anti-log', 'game1 anti log', 'localhost:9092', 'game1_anti_log');
 insert into adp_reference(reference_id, description, broker_addr, topic)
 values ('game2-anti-log', 'game2 anti log', 'localhost:9092', 'game2_anti_log');
+
+# bot addr
+CREATE TABLE `adp_bot`
+(
+    `id`      INT UNSIGNED AUTO_INCREMENT,
+    `name`    VARCHAR(255) NOT NULL,
+    `webhook` VARCHAR(255) NOT NULL,
+    primary key (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;

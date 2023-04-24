@@ -9,7 +9,7 @@ import javax.persistence.Table;
 @Table(name = "rule_reference_rel")
 public class RuleReferenceRel {
     @Column(name = "reference_id")
-    String ReferenceId;
+    String referenceId;
     @Column(name = "rule_name")
     String ruleName;
 }

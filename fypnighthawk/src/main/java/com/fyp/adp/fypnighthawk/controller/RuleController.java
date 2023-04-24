@@ -44,8 +44,18 @@ public class RuleController {
     }
 
     @GetMapping("/rel/save")
-    public Result saveRuleReferenceRel(String referenceId, String ruleName) {
+    public Result saveRuleReferenceRel(@RequestParam String referenceId, @RequestParam String ruleName) {
         return Result.success(eventService.addEvent(referenceId, ruleName));
+    }
+
+    @GetMapping("/rel/get")
+    public Result getRuleReferenceRel(@RequestParam String referenceId) {
+        return Result.success(eventService.getRuleReferRel(referenceId));
+    }
+
+    @GetMapping("/rel/del")
+    public Result delRuleReferenceRel(@RequestParam String referenceId, @RequestParam String ruleName) {
+        return Result.success(eventService.delRuleReferRel(referenceId, ruleName));
     }
 
     @GetMapping("/list")

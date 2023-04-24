@@ -44,6 +44,27 @@ public class EventService {
     }
 
     /**
+     * 获取 规则&Reference 关系
+     */
+    public List<RuleReferenceRel> getRuleReferRel(String referenceId) {
+        Example          example  = new Example(RuleReferenceRel.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("referenceId", referenceId);
+        return ruleReferenceRelMapper.selectByExample(example);
+    }
+
+    /**
+     * 删除rel
+     */
+    public int delRuleReferRel(String referenceId, String ruleName) {
+        Example          example  = new Example(RuleReferenceRel.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("referenceId", referenceId);
+        criteria.andEqualTo("ruleName", ruleName);
+        return ruleReferenceRelMapper.deleteByExample(example);
+    }
+
+    /**
      * 获取事件记录列表
      * @return 事件记录列表
      */

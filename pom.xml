@@ -19,6 +19,7 @@
         <module>adp-common</module>
         <module>fypnighthawk</module>
         <module>adp-basedata</module>
+        <module>adp-dispatcher</module>
     </modules>
 
     <properties>
@@ -223,6 +224,12 @@
                     <artifactId>okhttp</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -133,7 +133,9 @@ CREATE TABLE `rule_reference_rel`
 insert into rule_reference_rel(reference_id, rule_name)
 VALUES ('kafka-app1', 'npe_eq_1_immediately');
 insert into rule_reference_rel(reference_id, rule_name)
-VALUES ('kafka-app2', 'uv_gt_1000_10s');
+VALUES ('kafka-app2', 'uv_gt_100_10s');
+insert into rule_reference_rel(reference_id, rule_name)
+VALUES ('eventlog108', 'uv_gt_100_10s');
 
 # rules
 CREATE TABLE `adp_rule`
@@ -145,17 +147,18 @@ CREATE TABLE `adp_rule`
     `threshold`    INT          NOT NULL comment '阈值, -1及不限',
     `alert_config` VARCHAR(255) NOT NULL,
     `create_time`  DATETIME DEFAULT CURRENT_TIMESTAMP,
-    primary key (`id`),
-    UNIQUE INDEX index_rule_name_uniq (rule_name ASC)
+    primary key (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
 insert into adp_rule (rule_name, event_type, window_size, threshold, alert_config)
-VALUES ('npe_eq_1', 'npe', -1, -1, '{"way":"bot","botId": 1,"msg":"null point exception"}');
+VALUES ('npe_eq_1', 'npe', -1, -1, '{"way":"bot","addr": "https://open.feishu.cn/open-apis/bot/v2/hook/ebad2359-a31a-46e6-b567-992f62042c4b","msg":"null point exception"}');
 insert into adp_rule (rule_name, event_type, window_size, threshold, alert_config)
-values ('uv_gt_1000_10s', 'uv', 10, 1000, '{"way":"email","email": "example@outlook.com","msg":"unique visit greater than 1000 times in 10 seconds"}');
+values ('uv_gt_100_10s', 'uv', 10, 1000, '{"way":"email","addr": "example@outlook.com","msg":"unique visit greater than 1000 times in 10 seconds"}');
 insert into adp_rule (rule_name, event_type, window_size, threshold, alert_config)
-VALUES ('refer_eq_blacklist', 'blacklist', -1, -1, '{"way":"bot","botId": 1, "msg":"app in blacklist"}');
+values ('pv_gt_10_10s', 'pv', 10, 10, '{"way":"bot","addr": "https://open.feishu.cn/open-apis/bot/v2/hook/ebad2359-a31a-46e6-b567-992f62042c4b","msg":"page visit greater than 10 times in 10 seconds"}');
+insert into adp_rule (rule_name, event_type, window_size, threshold, alert_config)
+VALUES ('refer_eq_blacklist', 'blacklist', -1, -1, '{"way":"bot","addr": "https://open.feishu.cn/open-apis/bot/v2/hook/ebad2359-a31a-46e6-b567-992f62042c4b", "msg":"app in blacklist"}');
 
 # valid reference
 CREATE TABLE `valid_reference`

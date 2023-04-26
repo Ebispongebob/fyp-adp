@@ -44,6 +44,13 @@ public class EventService {
     }
 
     /**
+     * 保存记录
+     */
+    public void saveRecord(EventRecord record) {
+        eventRecordMapper.insert(record);
+    }
+
+    /**
      * 获取 规则&Reference 关系
      */
     public List<RuleReferenceRel> getRuleReferRel(String referenceId) {

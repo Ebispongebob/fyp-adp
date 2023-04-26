@@ -1,6 +1,7 @@
 package com.fyp.adp.basedata.rule.entity;
 
 import lombok.Data;
+import scala.Int;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -12,7 +13,7 @@ import java.util.Date;
 public class RuleConfig {
     @Id
     @Column(name = "id")
-    private Integer    id;
+    private Integer id;
     @Column(name = "rule_name")
     private String  ruleName;
     @Column(name = "event_type")
@@ -21,8 +22,6 @@ public class RuleConfig {
     private Integer windowSize;
     @Column(name = "threshold")
     private Integer threshold;
-    @Column(name = "`condition`")
-    private String  condition;
     @Column(name = "alert_config")
     private String  alertConfig;
     @Column(name = "create_time")

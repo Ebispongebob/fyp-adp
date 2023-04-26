@@ -133,8 +133,6 @@ CREATE TABLE `rule_reference_rel`
 insert into rule_reference_rel(reference_id, rule_name)
 VALUES ('kafka-app1', 'npe_eq_1_immediately');
 insert into rule_reference_rel(reference_id, rule_name)
-VALUES ('kafka-app1', 'uv_gt_1000_10s');
-insert into rule_reference_rel(reference_id, rule_name)
 VALUES ('kafka-app2', 'uv_gt_1000_10s');
 
 # rules
@@ -145,7 +143,6 @@ CREATE TABLE `adp_rule`
     `event_type`   VARCHAR(255) NOT NULL,
     `window_size`  INT          NOT NULL comment '窗口大小，秒; -1及不限时间',
     `threshold`    INT          NOT NULL comment '阈值, -1及不限',
-    `condition`    VARCHAR(255) NOT NULL comment '条件, "GREATER, LESS, EQUAL, NONE"',
     `alert_config` VARCHAR(255) NOT NULL,
     `create_time`  DATETIME DEFAULT CURRENT_TIMESTAMP,
     primary key (`id`),
@@ -153,12 +150,12 @@ CREATE TABLE `adp_rule`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-insert into adp_rule (rule_name, event_type, window_size, threshold, `condition`, alert_config)
-VALUES ('npe_eq_1', 'npe', -1, -1, 'EQUAL', '{"way":"bot","botId": 1,"msg":"null point exception"}');
-insert into adp_rule (rule_name, event_type, window_size, threshold, `condition`, alert_config)
-values ('uv_gt_1000_10s', 'uv', 10, 1000, 'GREATER_THAN', '{"way":"email","email": "example@outlook.com","msg":"unique visit greater than 1000 times in 10 seconds"}');
-insert into adp_rule (rule_name, event_type, window_size, threshold, `condition`, alert_config)
-VALUES ('refer_eq_blacklist', 'blacklist', -1, -1, 'EQUAL', '{"way":"bot","botId": 1, "msg":"app in blacklist"}');
+insert into adp_rule (rule_name, event_type, window_size, threshold, alert_config)
+VALUES ('npe_eq_1', 'npe', -1, -1, '{"way":"bot","botId": 1,"msg":"null point exception"}');
+insert into adp_rule (rule_name, event_type, window_size, threshold, alert_config)
+values ('uv_gt_1000_10s', 'uv', 10, 1000, '{"way":"email","email": "example@outlook.com","msg":"unique visit greater than 1000 times in 10 seconds"}');
+insert into adp_rule (rule_name, event_type, window_size, threshold, alert_config)
+VALUES ('refer_eq_blacklist', 'blacklist', -1, -1, '{"way":"bot","botId": 1, "msg":"app in blacklist"}');
 
 # valid reference
 CREATE TABLE `valid_reference`

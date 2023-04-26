@@ -8,7 +8,6 @@ public class RuleConfigVo {
     private String  eventType;
     private Integer windowSize;
     private Integer threshold;
-    private String  condition;
     private String  alertConfig;
     private String  createTime;
 }

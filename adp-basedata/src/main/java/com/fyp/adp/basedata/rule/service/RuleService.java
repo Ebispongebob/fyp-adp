@@ -41,7 +41,6 @@ public class RuleService {
     private Function<RuleConfig, RuleConfigVo> ruleConfig2Vo = ruleConfig -> {
         RuleConfigVo vo = new RuleConfigVo();
         vo.setRuleName(ruleConfig.getRuleName());
-        vo.setCondition(ruleConfig.getCondition());
         vo.setAlertConfig(ruleConfig.getAlertConfig());
         vo.setThreshold(ruleConfig.getThreshold());
         vo.setEventType(ruleConfig.getEventType());

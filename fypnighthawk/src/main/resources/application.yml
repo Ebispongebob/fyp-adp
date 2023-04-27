@@ -1,5 +1,7 @@
 spring:
   datasource:
+    hikari:
+      max-lifetime: 1800000
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 333

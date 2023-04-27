@@ -1,6 +1,8 @@
 package com.fyp.adp.fypnighthawk.interceptor;
 
+import com.fyp.adp.common.enums.ReturnStatus;
 import com.fyp.adp.common.exception.AuthException;
+import com.fyp.adp.common.exception.BusinessException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +34,7 @@ public class CommonSessionInterceptor implements HandlerInterceptor {
         String authToken = request.getHeader(BOARD_TOKEN_NAME);
 
         if (StringUtils.isEmpty(authToken)) {
-            throw new AuthException("Token is empty！please login！");
+            throw new BusinessException(ReturnStatus.STATUS_CHECK_ERROR, "Token is empty！please login！");
         }
 
         //默认token 不校验权限
@@ -41,7 +43,7 @@ public class CommonSessionInterceptor implements HandlerInterceptor {
         }
         String tokenValue = stringRedisTemplate.opsForValue().get(authToken);
         if (StringUtils.isEmpty(tokenValue)) {
-            throw new AuthException("Token不存在或已失效，请您重新登陆");
+            throw new BusinessException(ReturnStatus.STATUS_CHECK_ERROR, "Token不存在或已失效，请您重新登陆");
         }
         return true;
     }

@@ -121,4 +121,11 @@ public class EventService {
     public EventTypeCountVo getEventTypeCounts() {
         return eventRecordMapper.queryEventTypeCount();
     }
+
+    /**
+     * get event counts
+     */
+    public Integer getEventCounts() {
+        return eventRecordMapper.selectCountByExample(new Example(EventRecord.class));
+    }
 }

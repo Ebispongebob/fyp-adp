@@ -43,6 +43,11 @@ public class RuleController {
         return Result.success(eventService.getEventTypeCounts());
     }
 
+    @GetMapping("event/count")
+    public Result getEventCounts() {
+        return Result.success(eventService.getEventCounts());
+    }
+
     @GetMapping("/rel/save")
     public Result saveRuleReferenceRel(@RequestParam String referenceId, @RequestParam String ruleName) {
         return Result.success(eventService.addEvent(referenceId, ruleName));

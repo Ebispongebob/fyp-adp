@@ -15,6 +15,7 @@ import com.fyp.adp.dispatcher.sender.EmailSender;
 import com.fyp.adp.dispatcher.sender.LarkBotSender;
 import com.google.common.collect.Lists;
 import jakarta.annotation.PostConstruct;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -74,7 +75,8 @@ public class AdpDispatchConsumer {
     }
 
     private void handle(DispatcherMessage message) {
-        for (SinkPattern sinkPattern : message.getBegin()) {
+        if (CollectionUtils.isNotEmpty(message.getBegin())) {
+            SinkPattern   sinkPattern   = message.getBegin().get(0);
             CommonMessage commonMessage = new CommonMessage();
             commonMessage.setTitle("[" + sinkPattern.getReferenceId() + "] " + sinkPattern.getEventType());
             commonMessage.setReference(sinkPattern.getReferenceId());

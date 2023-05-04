@@ -5,7 +5,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 333
-    url: jdbc:mysql://43.143.23.30:3306/adp?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://adp.zoons.top:3306/adp?useUnicode=true&characterEncoding=utf8
 pebble:
   suffix: .html
 server:

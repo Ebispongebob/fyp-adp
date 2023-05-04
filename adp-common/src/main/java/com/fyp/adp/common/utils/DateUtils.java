@@ -384,7 +384,7 @@ public class DateUtils {
         List<String>      lastWeekDates = new ArrayList<>();
         DateTimeFormatter formatter     = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate         today         = LocalDate.now();
-        for (int i = 7; i >0; i--) {
+        for (int i = 6; i >=0; i--) {
             LocalDate date          = today.minusDays(i);
             String    formattedDate = date.format(formatter);
             lastWeekDates.add(formattedDate);
